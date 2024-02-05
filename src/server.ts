@@ -1,12 +1,12 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import * as path from "path"
 
 const app = express()
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/api', () => {
-  res.json({ date: new Date() })
+app.get('/api', (request: Request, response: Response) => {
+  response.json({ date: new Date() })
 })
 
 function startServer(port = 3000) {

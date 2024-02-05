@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
+import { startServer } from './server';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -7,6 +8,8 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
+  startServer()
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
