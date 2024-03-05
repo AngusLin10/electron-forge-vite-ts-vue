@@ -11,7 +11,8 @@ const sequelize = new Sequelize({
 
 export const migrator = new Umzug({
 	migrations: {
-		glob: 'migrations/*.ts',
+		// glob: app.getAppPath() + '/migrations/*.js',//D:\Study\electron-forge-vite-ts-vue/migrations/*.ts
+    glob: 'migrations/*.js',
 	},
 	context: sequelize,
 	storage: new SequelizeStorage({
@@ -54,6 +55,8 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  console.log(app.getAppPath() + '/migrations/*.ts');
+
   (async () => {
     // Checks migrations and run them if they are not already applied. To keep
     // track of the executed migrations, a table (and sequelize model) called SequelizeMeta
