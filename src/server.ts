@@ -1,8 +1,13 @@
-import express, { Request, Response } from 'express'
-import * as path from "path"
+import express,  { Request, Response }from "express"
+import * as bodyParser from "body-parser"
+import path from 'path';
 
 const app = express()
 
+// 使用 body-parser 中間件來解析請求的 JSON 資料
+app.use(bodyParser.json())
+
+// 設定靜態資源文件目錄為 public
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get('/api', (request: Request, response: Response) => {

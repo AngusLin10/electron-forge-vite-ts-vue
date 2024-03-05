@@ -1,6 +1,28 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow} from 'electron';
 import path from 'path';
 import { startServer } from './server';
+import { Sequelize } from 'sequelize'
+import { Umzug, SequelizeStorage } from 'umzug'
+
+const sequelize = new Sequelize({
+	dialect: 'sqlite',
+	storage: 'db.sqlite',
+});
+
+export const migrator = new Umzug({
+	migrations: {
+		glob: 'migrations/*.ts',
+	},
+	context: sequelize,
+	storage: new SequelizeStorage({
+		sequelize,
+	}),
+	logger: console,
+});
+
+export type Migration = typeof migrator._types.migration;
+
+const port = 3000;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -8,8 +30,6 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
-  startServer()
-
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -27,13 +47,32 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  (async () => {
+    // Checks migrations and run them if they are not already applied. To keep
+    // track of the executed migrations, a table (and sequelize model) called SequelizeMeta
+    // will be automatically created (if it doesn't exist already) and parsed.
+    const migrations = await migrator.executed();
+    console.log('🚀  migrations:', migrations)
+    await migrator.up();
+  })();
+
+  // try {
+  //   sequelize.authenticate();
+  //   console.log('Connection has been established successfully.');
+  // } catch (error) {
+  //   console.error('Unable to connect to the database:', error);
+  // }
+  // Create an express app
+  startServer(port);
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
