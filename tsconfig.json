@@ -11,6 +11,11 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": ["element-plus/global"]
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   }
 }
