@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 
-export class User1709864174745 implements MigrationInterface {
-    name = 'User1709864174745'
+export class User1710746787056 implements MigrationInterface {
+    name = 'User1710746787056'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.addColumn('user', {
-            name: 'email',
+            name: 'path',
             type: 'varchar',
             isNullable: true,
             '@instanceof': undefined,
@@ -23,6 +23,7 @@ export class User1709864174745 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropColumn('user', 'email')
+        await queryRunner.dropColumn('user', 'path')
     }
+
 }

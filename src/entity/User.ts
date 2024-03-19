@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import * as path from 'path';
 
 @Entity('user')
 export class User {
@@ -17,4 +18,7 @@ export class User {
 
     @Column('text')
     email: string
+
+    @Column('text')
+    path: string
 }

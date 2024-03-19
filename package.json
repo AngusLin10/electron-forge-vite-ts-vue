@@ -26,6 +26,7 @@
     "@electron-forge/plugin-vite": "^7.3.0",
     "@electron/fuses": "^1.7.0",
     "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.11.26",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -39,14 +40,14 @@
   },
   "keywords": [],
   "author": {
-    "name": "Angus Lin",
-    "email": "Angus.lin@microtek.com.tw"
+    "name": "Microtek"
   },
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "element-plus": "^2.5.6",
     "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
     "reflect-metadata": "^0.2.1",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.20",
