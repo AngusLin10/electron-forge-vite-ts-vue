@@ -4,8 +4,15 @@ import * as bodyParser from "body-parser"
 import { AppDataSource } from './data-source'
 import { User } from './entity/User'
 import multer from 'multer'
+import { CronJob } from 'cron'
+
+const job = new CronJob('* * * * *', () => {//五顆*代表每分鐘執行一次
+  console.log('You will see this message every second');
+})
 
 async function startServer(port = 3000) {
+  job.start();
+
   await AppDataSource.initialize().then(async () => {
     // register express routes from defined application routes
     // Routes.forEach(route => {
