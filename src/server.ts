@@ -5,6 +5,7 @@ import { AppDataSource } from './data-source'
 import { User } from './entity/User'
 import multer from 'multer'
 import { CronJob } from 'cron'
+import yahooFinance from 'yahoo-finance2'
 
 const job = new CronJob('* * * * *', () => {//五顆*代表每分鐘執行一次
   console.log('You will see this message every second');
@@ -68,6 +69,55 @@ async function startServer(port = 3000) {
     })
     await userRepository.save(user)
     res.json(user)
+  })
+
+  app.get('/api/stock/:symbol', async (req: Request, res: Response) => {
+    try {
+      const { symbol } = req.params
+      const { startDate, endDate } = req.query
+
+      if (!symbol) {
+        return res.status(400).json({ error: '股票代碼不能為空' })
+      }
+
+      const queryOptions = {
+        period1: startDate ? new Date(startDate as string) : new Date(new Date().setMonth(new Date().getMonth() - 3)),
+        period2: endDate ? new Date(endDate as string) : new Date(),
+        interval: '1d' as const
+      }
+
+      const result = await yahooFinance.historical(symbol, queryOptions)
+
+      interface HistoricalData {
+        date: Date
+        open: number
+        high: number
+        low: number
+        close: number
+        volume: number
+      }
+
+      const formattedData = (result as HistoricalData[]).map((item) => ({
+        date: item.date.toISOString().split('T')[0],
+        open: item.open,
+        high: item.high,
+        low: item.low,
+        close: item.close,
+        volume: item.volume
+      }))
+
+      res.json({
+        symbol,
+        data: formattedData
+      })
+    } catch (error) {
+      console.error('Stock API error:', error)
+      const errorMessage = error instanceof Error ? error.message : '未知錯誤'
+      res.status(500).json({ 
+        error: '獲取股票數據失敗',
+        message: errorMessage
+      })
+    }
   })
 
   app.listen(port, () => {

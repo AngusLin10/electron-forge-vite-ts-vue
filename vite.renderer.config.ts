@@ -2,8 +2,11 @@ import type { ConfigEnv, UserConfig } from 'vite';
 import { defineConfig } from 'vite';
 import { pluginExposeRenderer } from './vite.base.config';
 import vue from '@vitejs/plugin-vue';
+// eslint-disable-next-line import/no-unresolved
 import AutoImport from 'unplugin-auto-import/vite';
+// eslint-disable-next-line import/no-unresolved
 import Components from 'unplugin-vue-components/vite';
+// eslint-disable-next-line import/no-unresolved
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config

@@ -39,7 +39,7 @@ export class UserController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id)
 
-        let userToRemove = await this.userRepository.findOneBy({ id })
+        const userToRemove = await this.userRepository.findOneBy({ id })
 
         if (!userToRemove) {
             return "this user not exist"
