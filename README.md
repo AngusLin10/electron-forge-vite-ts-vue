@@ -1,3 +1,18 @@
+
+
+## Getting Started
+
+To get started with this project, follow these steps:
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the application:
+   ```bash
+   npm start
+   ```
+
 ## Features
 
 This project leverages **Electron Forge**, **Vite**, **TypeScript**, and **Vue 3** to create a modern, cross-platform desktop application.  
